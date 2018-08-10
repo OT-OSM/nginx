@@ -1,0 +1,11 @@
+---
+
+- name: Updating apt-get
+  apt:
+    update_cache: yes
+- name: Installing nginx server on Ubuntu
+  apt: 
+   name: nginx
+   state: present
+  notify: nginx start
+
