@@ -1,0 +1,22 @@
+---
+
+driver:
+  name: docker
+
+platforms:
+  - name: "centos-7"
+
+
+verifier:
+  name: inspec
+
+suites:
+  - name: default
+
+provisioner:
+  hosts: all
+  name: ansible_playbook
+  sudo: yes
+  playbook: site.yml
+
+
