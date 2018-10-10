@@ -1,4 +1,3 @@
----
-# handlers file for nginx
-- name: nginx start
-  service: name=nginx state=started
+- name: reload nginx
+  service: name={{ nginx_service_name }} state=reloaded
+

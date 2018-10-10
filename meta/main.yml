@@ -3,4 +3,3 @@ galaxy_info:
   description: This role is tested with kitchen test. This role install nginx-1.12.
   company: Opstree solution
 
-
