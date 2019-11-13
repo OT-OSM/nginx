@@ -1,7 +1,7 @@
 user {{ nginx_user }};
 worker_processes {{ worker_proce }};
 worker_rlimit_nofile {{ worker_rlimit }};
-pid /run/nginx.pid;
+pid /var/run/nginx.pid;
 include /etc/nginx/modules-enabled/*.conf;
 
 events {

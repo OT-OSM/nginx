@@ -1,0 +1,23 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+  no_log: false
+platforms:
+  - name: centos
+    image: centos:6
+    pull: false
+  - name: ubuntu
+    image: ubuntu
+    pull: false
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

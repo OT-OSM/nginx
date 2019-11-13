@@ -1,22 +1,23 @@
+---
+- name: add the OS specific variables
+  include_vars: Amazon.yml
+
 - name: Check if the epel.repo is exists
   stat:
-      path: /etc/yum.repos.d/epel.repo
+    path: /etc/yum.repos.d/epel.repo
   register: stat_result
 
 - name: install the epel repo rpm
   yum:
-    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    name: "{{ repo_url }}"
     state: present
-  when: stat_result.stat.exists == False
+  when: not stat_result.stat.exists
 
 - name: Installing nginx server on Amazon AMI Machine
   yum:
-   name: nginx
-   state: installed
+    name: nginx
+    state: installed
   notify: reload nginx
-
-- name: add the OS specific variables
-  include_vars: RedHat.yml
 
 - name: create user for nginx
   user:
@@ -27,21 +28,39 @@
   when: ansible_os_family == "Redhat"
 
 - name: config should not be worldwide read- or writeable
-  file: path="/etc/nginx" mode="o-rw" owner="root" group="root" recurse=yes
+  file:
+    path: "/etc/nginx"
+    mode: "o-rw"
+    owner: "root"
+    group: "root"
+    recurse: true
 
 - name: create additional configuration
-  template: src="hardening.conf.j2" dest="{{nginx_config_conf_dir}}/90.hardening.conf" owner="root" group="root"
+  template:
+    src: "hardening.conf.j2"
+    dest: "{{ nginx_config_conf_dir }}/90.hardening.conf"
+    owner: "root"
+    group: "root"
   notify: reload nginx
 
 - name: change configuration in main nginx.conf
-  template: src="nginx.conf.j2" dest="{{ nginx_root_dir }}/nginx.conf" owner="root" group="root" mode="0644"
+  template:
+    src: "nginx.conf.j2"
+    dest: "{{ nginx_root_dir }}/nginx.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
   notify: reload nginx
 
-- name: remove default.conf
-  file: path="{{nginx_default_conf}}" state=absent
-  when: nginx_remove_default_site
-  notify: reload nginx
+# - name: remove default.conf
+#   file:
+#     path: "{{ nginx_default_conf }}"
+#     state: absent
+#   when: nginx_remove_default_site
+#   notify: reload nginx
 
 - name: generate dh group
-  command: openssl dhparam -out {{nginx_dh_param}} {{nginx_dh_size}} creates={{nginx_dh_param}}
+  command: openssl dhparam -out {{ nginx_dh_param }} {{ nginx_dh_size }}
+  args:
+    creates: "{{ nginx_dh_param }}"
   notify: reload nginx
