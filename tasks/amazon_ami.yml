@@ -49,15 +49,8 @@
     dest: "{{ nginx_root_dir }}/nginx.conf"
     owner: "root"
     group: "root"
-    mode: "0644"
+    mode: "0640"
   notify: reload nginx
-
-# - name: remove default.conf
-#   file:
-#     path: "{{ nginx_default_conf }}"
-#     state: absent
-#   when: nginx_remove_default_site
-#   notify: reload nginx
 
 - name: generate dh group
   command: openssl dhparam -out {{ nginx_dh_param }} {{ nginx_dh_size }}
