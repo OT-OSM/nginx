@@ -5,8 +5,6 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']
 ).get_hosts('all')
 
-nginx_port = '80'
-
 
 def test_user(host):
     user = host.user("www-data")
@@ -27,7 +25,7 @@ def test_nginx_running_and_enabled(host):
 
 
 def test_nginx_is_listening(host):
-    assert host.socket('tcp://127.0.0.1:'+nginx_port).is_listening
+    assert host.socket('tcp://80').is_listening
 
 
 def test_nginx_file(host):
