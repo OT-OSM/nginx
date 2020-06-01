@@ -1,5 +1,21 @@
+---
 galaxy_info:
   author: Kavit Narwal
-  description: This role is tested with kitchen test. This role install nginx-1.12.
-  company: Opstree solution
+  role_name: nginx
+  description: Install and configure nginx.
+  company: "Opstree Solutions"
+  min_ansible_version: 2.3
+  license: license (GPLv2)
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 6
 
+    - name: Ubuntu
+      versions:
+        - bionic
+        - xenial
+
+  galaxy_tags:
+    - nginx

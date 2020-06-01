@@ -1,6 +1,6 @@
 ---
 # tasks file for nginx
-- name: Fetch OS 
+- name: Fetch OS
   include: debian.yml
   when: ansible_os_family == "Debian"
 
@@ -10,5 +10,4 @@
 
 - name: Fetch OS
   include: amazon_ami.yml
-  when: ansible_distribution == "Amazon" 
-
+  when: ansible_distribution == "Amazon"
